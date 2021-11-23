@@ -26,23 +26,32 @@ void SetSysClock_168MHz(void);
 void set_sysclk_to_84(void);
 
 int main(void){
-//	SetSysClock_168MHz();
-	set_sysclk_to_84();
+	SetSysClock_168MHz();
+//	set_sysclk_to_84();
 //	EraseSector();
-	uint8_t triangle_buf[8];
-	triangle_buf[7] = 0x01;
-	triangle_buf[6] = 0x03;
-	triangle_buf[5] = 0x07;
-	triangle_buf[4] = 0x0F;
-	triangle_buf[3] = 0x1F;
-	triangle_buf[2] = 0x3F;
-	triangle_buf[1] = 0x7F;
-	triangle_buf[0] = 0xFF;
+//	uint8_t empty_buf[1];
+//	WriteToFlash(&empty_buf[0], 9600);
+//	uint8_t triangle_buf[8];
+//	triangle_buf[7] = 0x01;
+//	triangle_buf[6] = 0x03;
+//	triangle_buf[5] = 0x07;
+//	triangle_buf[4] = 0x0F;
+//	triangle_buf[3] = 0x1F;
+//	triangle_buf[2] = 0x3F;
+//	triangle_buf[1] = 0x7F;
+//	triangle_buf[0] = 0xFF;
 //	WriteToFlash(&triangle_buf[0], 9600);
 	TFT_init();
 	while (1)
 	{
-
+		tft_color_ALL(GREEN);
+//		for(int i = 0; i<10000000; i++);
+		tft_color_ALL(RED);
+		tft_color_ALL(BLUE);
+		tft_color_ALL(CYAN);
+		tft_color_ALL(MAGENTA);
+		tft_color_ALL(YELLOW);
+		tft_color_ALL(WHITE);
 	}
 }
 

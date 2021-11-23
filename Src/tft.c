@@ -33,14 +33,13 @@ void TFT_init(){
 //	Micro_tick_delay(120);
 
 //	tft_color_ALL(BLACK);
-	tft_color_ALL(BLACK);
 
 //	char hello[] = "HELLO";
 //	Draw_String(100, 100, WHITE, GREEN ,&hello[0], 1);
 }
 
 void Micro_tick_delay(uint32_t tick){
-	tick*=16;
+	tick*=84;
 	while (tick--);
 }
 
@@ -126,7 +125,7 @@ void tft_color_ALL(uint16_t color) {
 	color_array[0] = (uint8_t)((color >> 8) & 0xFF) ;
 	color_array[1] = (uint8_t)(color & 0xFF);
 	color_array[2] = 0x00;
-	color_array[3] = 0x1F;
+	color_array[3] = 0x00;
 	DC_DATA();
 	Send_Frame_Color(&color_array[0]);
 }
@@ -141,10 +140,10 @@ void Send_Frame_Color(uint8_t *color_array)
 		pix_info = *(__IO uint8_t*)(FRAME_ADDRESS + byte_index);
 		if ((pix_info >> (i%8)) & 0x1)
 		{
-			spi1_SendDataDMA_1Byte(&color_array[0],2);
+			spi1_SendDataDMA_1Byte(&color_array[2],2);
 		}
 		else
-			spi1_SendDataDMA_1Byte(&color_array[2],2);
+			spi1_SendDataDMA_1Byte(&color_array[0],2);
 	}
 }
 

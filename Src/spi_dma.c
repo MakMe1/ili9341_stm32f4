@@ -7,7 +7,7 @@ void DMA2_Stream3_IRQHandler(){
 	if (DMA2->LISR & DMA_LISR_TCIF3) {
 		DMA2->LIFCR |= DMA_LIFCR_CTCIF3;
 		status_dma_tx = 1;
-//		for(int i = 0; i<20; i++); // just 35 ticks delay. It won't work without it.
+		for(int i = 0; i<4; i++); // just 35 ticks delay. It won't work without it.
 		SET_CS();
 	}
 }
@@ -30,7 +30,7 @@ void spi1_master_init() {
 	GPIOA_init_spi_TFT();
 	RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
 //	SPI1->CR1 &= ~SPI_CR1_SPE;
-//	SPI1->CR1 |= SPI_CR1_BR_0; // f/32
+	SPI1->CR1 |= SPI_CR1_BR_0; // f/32
 	SPI1->CR1 &= ~SPI_CR1_LSBFIRST; // MSB transmits first
 	SPI1->CR1 &= ~SPI_CR1_CPOL; // SPI1 mode: 0
 	SPI1->CR1 &= ~SPI_CR1_CPHA; //

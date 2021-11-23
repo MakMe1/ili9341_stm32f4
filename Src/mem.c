@@ -44,6 +44,8 @@ void WriteToFlash(uint8_t *data, int size_data)
 	{
 //		*(__IO uint8_t*)(FRAME_ADDRESS + i) = data[i];
 		*(__IO uint8_t*)(FRAME_ADDRESS + i) = data[i/30%8];
+//		*(__IO uint8_t*)(FRAME_ADDRESS + i) = i%30;
+//		*(__IO uint8_t*)(FRAME_ADDRESS + i) = 0;
 		while ((FLASH->SR & FLASH_SR_BSY) != 0);
 		if((FLASH->SR & FLASH_SR_EOP) == 0)
 			FLASH->SR |= FLASH_SR_EOP;
