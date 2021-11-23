@@ -5,32 +5,38 @@ static uint32_t count_pixels;
 void TFT_init(){
 	spi1_master_init();
 	LED_on();
-	Micro_tick_delay(100);
-
-	RESET_ACTIVE();
-	Micro_tick_delay(10);
-	RESET_IDLE();
-	Micro_tick_delay(10);
-
-	tft_write_cmd(0x01,1,1); // software reset
 	Micro_tick_delay(1000);
 
+	RESET_ACTIVE();
+	Micro_tick_delay(1000);
+	RESET_IDLE();
+	Micro_tick_delay(1000);
+
+	tft_write_cmd(0x01,1,1); // software reset
+// necessary to wait 5msec before sending new command
+//	for (int i = 0; i < 850000; i++); // for 168 MHz
+//	Micro_tick_delay(1000); // it works without delay at all
+
 	tft_display_normal_mode();
+// necessary to wait 5msec before sending new command
+//	for (int i = 0; i < 850000; i++); // for 168 MHz
 	tft_pixel_format();
+//	not necessary to wait
 //	tft_RGB();
 
 	tft_sleep_out();
-	Micro_tick_delay(120);
+// necessary to wait 5msec before sending new command
+//	for (int i = 0; i < 850000; i++); // for 168 MHz
+//	Micro_tick_delay(120);
 	tft_display_on();
-	Micro_tick_delay(120);
+//	not necessary to wait
+//	Micro_tick_delay(120);
 
+//	tft_color_ALL(BLACK);
+	tft_color_ALL(BLACK);
 
-	Micro_tick_delay(120);
-	tft_color_ALL(GREEN);
-	tft_color_ALL(GREEN);
-
-	char hello[] = "H";
-	Draw_String(100, 100, WHITE, BLACK ,&hello[0], 8);
+//	char hello[] = "HELLO";
+//	Draw_String(100, 100, WHITE, GREEN ,&hello[0], 1);
 }
 
 void Micro_tick_delay(uint32_t tick){
@@ -116,12 +122,29 @@ void tft_set_region(uint16_t row_start, uint16_t row_end, uint16_t col_start, ui
 
 void tft_color_ALL(uint16_t color) {
 	tft_set_region(0,MAX_X,0,MAX_Y);
-	uint8_t color_array[2];
+	uint8_t color_array[4];
 	color_array[0] = (uint8_t)((color >> 8) & 0xFF) ;
 	color_array[1] = (uint8_t)(color & 0xFF);
+	color_array[2] = 0x00;
+	color_array[3] = 0x1F;
 	DC_DATA();
-	for(uint32_t i = 0; i < count_pixels + 1; i++){
-		spi1_SendDataDMA_1Byte(&color_array[0],2);
+	Send_Frame_Color(&color_array[0]);
+}
+
+void Send_Frame_Color(uint8_t *color_array)
+{
+	uint32_t byte_index;
+	uint8_t pix_info;
+	for (int i = 0; i < PIX_AMOUNT; i++)
+	{
+		byte_index = i/8;
+		pix_info = *(__IO uint8_t*)(FRAME_ADDRESS + byte_index);
+		if ((pix_info >> (i%8)) & 0x1)
+		{
+			spi1_SendDataDMA_1Byte(&color_array[0],2);
+		}
+		else
+			spi1_SendDataDMA_1Byte(&color_array[2],2);
 	}
 }
 

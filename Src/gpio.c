@@ -1,5 +1,10 @@
 #include "gpio.h"
 
+void	GPIOA_ADC_init()
+{
+	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+	GPIOA->MODER |= GPIO_MODER_MODER0;
+}
 
 void GPIOA_init_spi_TFT(){
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;

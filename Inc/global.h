@@ -8,6 +8,9 @@
 #include "spi_dma.h"
 #include "tft.h"
 #include "command.h"
+#include "mem.h"
+#include "tim.h"
+#include "ADC.h"
 
 extern uint8_t status_dma_tx;
 extern uint16_t MAX_Y;
@@ -18,13 +21,16 @@ extern uint16_t X_SIZE;
 #define FONT_Y 8
 #define FONT_X 8
 
+#define PIX_AMOUNT		76800
+#define FRAME_ADDRESS	0x0800C000
+
 #define CS_POS		4
 #define DC_POS		3
 #define RESET_POS	2
 #define LED_POS		1
 
-#define RESET_ACTIVE()	GPIOA->BSRR |= 0x1 << RESET_POS
-#define RESET_IDLE()	GPIOA->BSRR |= 0x1 << (RESET_POS + 16)
+#define RESET_ACTIVE()	GPIOA->BSRR |= 0x1 << (RESET_POS +16)
+#define RESET_IDLE()	GPIOA->BSRR |= 0x1 << RESET_POS
 
 #define DC_COMMAND()	GPIOA->BSRR |= 0x1 << (DC_POS + 16)
 #define DC_DATA()		GPIOA->BSRR |= 0x1 << DC_POS

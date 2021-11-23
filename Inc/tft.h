@@ -28,5 +28,7 @@ void tft_draw_pixel(uint16_t x, uint16_t y, uint16_t color);
 void swap(uint16_t *a, uint16_t *b);
 void tft_draw_pixel_4_size(uint16_t x, uint16_t y, uint16_t color);
 
+void Send_Frame_Color(uint8_t *color_array);
+
 
 #endif /* TFT_H_ */

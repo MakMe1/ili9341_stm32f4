@@ -16,8 +16,9 @@
  * **/
 
 
-void GPIOC_Set_Reset_PIN(int pin_num, int pin_state);
-void GPIOC_DIODES_Init();
-void GPIOA_init_spi_TFT();
+void	GPIOC_Set_Reset_PIN(int pin_num, int pin_state);
+void	GPIOC_DIODES_Init();
+void	GPIOA_init_spi_TFT();
+void	GPIOA_ADC_init();
 
 #endif /* GPIO_H_ */
