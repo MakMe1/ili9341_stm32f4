@@ -3,26 +3,29 @@
 
 
 #include <stdint.h>
+#include <math.h> // for sin function
 #include "stm32f4xx.h"
 #include "gpio.h"
 #include "spi_dma.h"
 #include "tft.h"
 #include "command.h"
-#include "mem.h"
+//#include "mem.h"
 #include "tim.h"
 #include "ADC.h"
+#include "CoreClockConfig.h"
+#include "DMA.h"
+
+#define SCK_168
 
 extern uint8_t status_dma_tx;
-extern uint16_t MAX_Y;
-extern uint16_t MAX_X;
-extern uint16_t Y_SIZE;
-extern uint16_t X_SIZE;
+#define	Y_SIZE	240
+#define X_SIZE	320
 
-#define FONT_Y 8
-#define FONT_X 8
+#define FONT_Y	8
+#define FONT_X	8
 
-#define PIX_AMOUNT		76800
-#define FRAME_ADDRESS	0x0800C000
+#define STEP	180
+#define FRAME_BUF_SIZE	640
 
 #define CS_POS		4
 #define DC_POS		3

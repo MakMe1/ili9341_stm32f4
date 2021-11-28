@@ -6,5 +6,7 @@
 void EraseSector(void);
 void WriteToFlash(uint8_t *data, int size_data);
 void ReadFromFlash(uint8_t *data, uint32_t mem_address);
+void WriteZerosToFlash();
+void MoveFlashData();
 
 #endif

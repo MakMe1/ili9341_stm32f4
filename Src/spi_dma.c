@@ -3,27 +3,27 @@
 uint8_t spi_buffer_tx[BUFFER_SPI_SIZE];
 uint8_t spi_buffer_rx[BUFFER_SPI_SIZE];
 
-void DMA2_Stream3_IRQHandler(){
-	if (DMA2->LISR & DMA_LISR_TCIF3) {
-		DMA2->LIFCR |= DMA_LIFCR_CTCIF3;
-		status_dma_tx = 1;
-		for(int i = 0; i<4; i++); // just 35 ticks delay. It won't work without it.
-		SET_CS();
-	}
-}
+//void DMA2_Stream3_IRQHandler(){
+//	if (DMA2->LISR & DMA_LISR_TCIF3) {
+//		DMA2->LIFCR |= DMA_LIFCR_CTCIF3;
+//		status_dma_tx = 1;
+//		TickDelay(3); // experimental value
+//		SET_CS();
+//	}
+//}
 
-void dma_tx_init(){
-	RCC->AHB1ENR |= RCC_AHB1ENR_DMA2EN;
-	DMA2_Stream3->CR |= DMA_SxCR_DIR_0; // Memory-to-peripheral mode
-	DMA2_Stream3->M0AR = (uint32_t)(&spi_buffer_tx[0]);
-	DMA2_Stream3->PAR = (uint32_t)(&(SPI1->DR));
-	DMA2_Stream3->CR |= 0x3 << DMA_SxCR_CHSEL_Pos; // Channel 3 selected
-	DMA2_Stream3->CR |= DMA_SxCR_MINC; // Memory increment mode
-	DMA2_Stream3->CR |= DMA_SxCR_TCIE; // Transfer complete interrupt enable
-	DMA2_Stream3->CR |= DMA_SxCR_PL_1; //Priority level high
-	NVIC_SetPriority(DMA2_Stream3_IRQn, 3);
-	NVIC_EnableIRQ(DMA2_Stream3_IRQn);
-}
+//void dma_tx_init(){
+//	RCC->AHB1ENR |= RCC_AHB1ENR_DMA2EN;
+//	DMA2_Stream3->CR |= DMA_SxCR_DIR_0; // Memory-to-peripheral mode
+//	DMA2_Stream3->M0AR = (uint32_t)(&spi_buffer_tx[0]);
+//	DMA2_Stream3->PAR = (uint32_t)(&(SPI1->DR));
+//	DMA2_Stream3->CR |= 0x3 << DMA_SxCR_CHSEL_Pos; // Channel 3 selected
+//	DMA2_Stream3->CR |= DMA_SxCR_MINC; // Memory increment mode
+//	DMA2_Stream3->CR |= DMA_SxCR_TCIE; // Transfer complete interrupt enable
+//	DMA2_Stream3->CR |= DMA_SxCR_PL_1; //Priority level high
+//	NVIC_SetPriority(DMA2_Stream3_IRQn, 3);
+//	NVIC_EnableIRQ(DMA2_Stream3_IRQn);
+//}
 
 
 void spi1_master_init() {
@@ -56,7 +56,7 @@ void spi1_SendDataDMA_1Byte(uint8_t* data, uint16_t count_byte) {
 
 	DMA2_Stream3->CR &= ~DMA_SxCR_EN;
 	DMA2_Stream3->NDTR = count_byte;
-//	DMA2_Stream3->CR |= DMA_CCR_MINC;	//increment memory
+//	DMA2_Stream3->CR |= DMA_SxCR_MINC;	//increment memory
 	RESET_CS();
 	Start_DMA_Send_Data();
 }

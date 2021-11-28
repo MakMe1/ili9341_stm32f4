@@ -29,6 +29,12 @@ void swap(uint16_t *a, uint16_t *b);
 void tft_draw_pixel_4_size(uint16_t x, uint16_t y, uint16_t color);
 
 void Send_Frame_Color(uint8_t *color_array);
+void Move_Frame_Left(void);
+void tft_write_cmd_without_data(uint8_t cmd);
+void TickDelay(uint32_t tick);
+void Greetings(void);
+void ADC_Get_Data(void);
+void UpdateFrame();
 
 
 #endif /* TFT_H_ */
