@@ -9,5 +9,6 @@
 
 
 void dma_tx_init();
+void DMA2_init();
 
 #endif

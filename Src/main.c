@@ -1,48 +1,31 @@
 #include "global.h"
 #include <math.h>
 
-uint8_t status_dma_tx=1;
-
 
 uint16_t data_adc;
 
 int main(void){
 	SetSysClk_168MHz();
-
 	TFT_init();
-
-	tft_color_ALL(BLACK);
+	tft_color_Background();
 
 	TIM3_init_TRGO();
 	ADC_init();
 	DMA2_init();
-
-	uint8_t tmp = 0;
-	while (1)
-	{
-
-//		tft_color_ALL(GREEN);
-//		tft_color_ALL(RED);
-//		tft_color_ALL(BLUE);
-//		tft_color_ALL(CYAN);
-//		tft_color_ALL(MAGENTA);
-//		tft_color_ALL(YELLOW);
-//		tft_color_ALL(WHITE);
-//		tft_color_ALL(BLACK);
-
+	while (1){
 		ADC_Get_Data();
 	}
 }
 
 // ------- Rainbow -------
-//tft_color_ALL(GREEN);
-//tft_color_ALL(RED);
-//tft_color_ALL(BLUE);
-//tft_color_ALL(CYAN);
-//tft_color_ALL(MAGENTA);
-//tft_color_ALL(YELLOW);
-//tft_color_ALL(WHITE);
-//tft_color_ALL(BLACK);
+//tft_color_All(GREEN);
+//tft_color_All(RED);
+//tft_color_All(BLUE);
+//tft_color_All(CYAN);
+//tft_color_All(MAGENTA);
+//tft_color_All(YELLOW);
+//tft_color_All(WHITE);
+//tft_color_All(BLACK);
 
 
 // ------- Triangle -------

@@ -104,46 +104,38 @@ const unsigned char simbols[][8]={
 	{0x00,0x07,0x0E,0x1C,0x11,0x1E,0x00,0x00}};// кракозяблик
 
 
-void Draw_Simbol_count(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,  uint8_t size, uint8_t ascii){
-	for (int i = 0; i < 8; i++ )
-	{
-		for(uint8_t f = 0; f < 8; f++)
-		{
-			if(((simbols[ascii-0x20][i])>>(7-f))&0x01){
-				tft_draw_pixel_4_size(x+f*size,y+i*size,color);
-			}
-			else{
-				tft_draw_pixel_4_size(x+f*size,y+i*size,phone);
-			}
-		}
-	}
-}
+//void Draw_Simbol_count(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,  uint8_t size, uint8_t ascii){
+//	for (int i = 0; i < 8; i++ ){
+//		for(uint8_t f = 0; f < 8; f++){
+//			if(((simbols[ascii-0x20][i])>>(7-f))&0x01){
+//				tft_draw_pixel_4_size(x+f*size,y+i*size,color);
+//
+//			else{
+//				tft_draw_pixel_4_size(x+f*size,y+i*size,phone);
+//			}
+//		}
+//	}
+//}
 
-void Draw_Simbol(uint16_t x, uint16_t y, uint16_t color, uint16_t phone, uint8_t ascii,  uint8_t size){
-	for (int i = 0; i <FONT_Y; i++ )
-	{
-		for(uint8_t f = 0; f < FONT_X; f++)
-		{
-			if(((simbols[ascii-0x20][i])>>(7-f))&0x01){
-				tft_color_XY(x+f*size, y+i*size, x+(f+1)*size -1, y+(i+1)*size -1, color);
-			}
+void Draw_Simbol(uint16_t x, uint16_t y, uint16_t color, uint16_t background, uint8_t ascii,  uint8_t size){
+	for (int i = 0; i <FONT_Y; i++){
+		for(uint8_t f = 0; f < FONT_X; f++){
+			if(((simbols[ascii-0x20][i])>>(7-f))&0x01)
+				tft_ColorXY(x+f*size, y+i*size, x+(f+1)*size -1, y+(i+1)*size -1, color);
 			else
-				tft_color_XY(x+f*size, y+i*size, x+(f+1)*size -1, y+(i+1)*size -1, phone);
+				tft_ColorXY(x+f*size, y+i*size, x+(f+1)*size -1, y+(i+1)*size -1, background);
 		}
 	}
 }
 
-void Draw_String(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,char *string,  uint8_t size)
-{
+void Draw_String(uint16_t x, uint16_t y, uint16_t color, uint16_t background,char *string,  uint8_t size){
 	int i=0;
-	while(string[i]!=0)
-	{
-		if((x + FONT_X) > X_SIZE)
-		{
+	while(string[i]!=0){
+		if((x + FONT_X) > X_SIZE){
 			x = 1;
 			y = y + FONT_Y*size;
 		}
-		Draw_Simbol(x, y, color, phone, string[i], size);//отрисовываем символ
+		Draw_Simbol(x, y, color, background, string[i], size);//отрисовываем символ
 		x += size*FONT_X;     //изменяем координату для отрисовки следующего символа
 		i++;//*string++; //увеличиваем значение указателя, чтобы он ссылался на следующий символ
 	}
