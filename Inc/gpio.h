@@ -1,6 +1,5 @@
-	#ifndef GPIO_H_
+#ifndef GPIO_H_
 #define GPIO_H_
-
 
 #include "global.h"
 
@@ -15,10 +14,7 @@
  * ***************************************
  * **/
 
-
-void	GPIOC_Set_Reset_PIN(int pin_num, int pin_state);
-void	GPIOC_DIODES_Init();
-void	GPIOA_init_spi_TFT();
+void	GPIOA_TFT_config();
 void	GPIOA_ADC_init();
 
 #endif /* GPIO_H_ */

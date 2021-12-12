@@ -1,5 +1,6 @@
 #include "ADC.h"
 
+/* Initialization of ADC triggered from TIM3 TRG0 */
 void	ADC_init(){
 	GPIOA_ADC_init();
 	RCC->APB2ENR |= RCC_APB2ENR_ADC1EN;

@@ -1,7 +1,7 @@
 #include "library.h"
 
 const unsigned char simbols[][8]={
-	{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},// пробел
+	{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00},// space
 	{0x04,0x04,0x04,0x04,0x00,0x04,0x00,0x00},// !
 	{0x0A,0x0A,0x0A,0x00,0x00,0x00,0x00,0x00},// "
 	{0x0A,0x0A,0x1F,0x0A,0x1F,0x0A,0x0A,0x00},// #
@@ -100,24 +100,11 @@ const unsigned char simbols[][8]={
 	{0x17,0x15,0x15,0x15,0x17,0x00,0x00,0x00},// 10
 	{0x17,0x11,0x17,0x14,0x17,0x00,0x00,0x00},// 12
 	{0x17,0x14,0x17,0x11,0x17,0x00,0x00,0x00},// 15
-	{0x01,0x05,0x09,0x1F,0x08,0x04,0x00,0x00},// стрелка
-	{0x00,0x07,0x0E,0x1C,0x11,0x1E,0x00,0x00}};// кракозяблик
+	{0x01,0x05,0x09,0x1F,0x08,0x04,0x00,0x00},// arrow
+	{0x00,0x07,0x0E,0x1C,0x11,0x1E,0x00,0x00}};// unknown thing
 
-
-//void Draw_Simbol_count(uint16_t x, uint16_t y, uint16_t color, uint16_t phone,  uint8_t size, uint8_t ascii){
-//	for (int i = 0; i < 8; i++ ){
-//		for(uint8_t f = 0; f < 8; f++){
-//			if(((simbols[ascii-0x20][i])>>(7-f))&0x01){
-//				tft_draw_pixel_4_size(x+f*size,y+i*size,color);
-//
-//			else{
-//				tft_draw_pixel_4_size(x+f*size,y+i*size,phone);
-//			}
-//		}
-//	}
-//}
-
-void Draw_Simbol(uint16_t x, uint16_t y, uint16_t color, uint16_t background, uint8_t ascii,  uint8_t size){
+/* draw symbol at selected position */
+void Draw_Symbol(uint16_t x, uint16_t y, uint16_t color, uint16_t background, uint8_t ascii,  uint8_t size){
 	for (int i = 0; i <FONT_Y; i++){
 		for(uint8_t f = 0; f < FONT_X; f++){
 			if(((simbols[ascii-0x20][i])>>(7-f))&0x01)
@@ -128,6 +115,7 @@ void Draw_Simbol(uint16_t x, uint16_t y, uint16_t color, uint16_t background, ui
 	}
 }
 
+/* draw sting symbols at selected position */
 void Draw_String(uint16_t x, uint16_t y, uint16_t color, uint16_t background,char *string,  uint8_t size){
 	int i=0;
 	while(string[i]!=0){
@@ -135,8 +123,8 @@ void Draw_String(uint16_t x, uint16_t y, uint16_t color, uint16_t background,cha
 			x = 1;
 			y = y + FONT_Y*size;
 		}
-		Draw_Simbol(x, y, color, background, string[i], size);//отрисовываем символ
-		x += size*FONT_X;     //изменяем координату для отрисовки следующего символа
-		i++;//*string++; //увеличиваем значение указателя, чтобы он ссылался на следующий символ
+		Draw_Symbol(x, y, color, background, string[i], size);
+		x += size*FONT_X;     // move position for next symbol
+		i++; // increment symbol index
 	}
 }

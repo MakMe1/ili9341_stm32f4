@@ -6,10 +6,11 @@ uint8_t spi_buffer_rx[BUFFER_SPI_SIZE];
 extern uint8_t	Background_buf[480];
 extern uint8_t	MainLine_buf[480];
 
+/* configure SPI1 to 21 MHz master mode, send via DMA */
 void SPI1_Master_init(){
-	GPIOA_init_spi_TFT();
+	GPIOA_TFT_config();
 	RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;
-	SPI1->CR1 |= SPI_CR1_BR_0; // f/32
+	SPI1->CR1 |= SPI_CR1_BR_0; // f/4
 	SPI1->CR1 &= ~SPI_CR1_LSBFIRST; // MSB transmits first
 	SPI1->CR1 &= ~SPI_CR1_CPOL; // SPI1 mode: 0
 	SPI1->CR1 &= ~SPI_CR1_CPHA; //
@@ -22,6 +23,7 @@ void SPI1_Master_init(){
 	SPI1->CR1 |= SPI_CR1_SPE;
 }
 
+/* send 1 byte via DMA */
 void spi1_SendDataDMA_1Byte(uint8_t* data, uint16_t count_byte){
 	while((SPI1->SR & SPI_SR_TXE) != SPI_SR_TXE);
 	for (int i = 0; i < count_byte; i++)
@@ -33,6 +35,7 @@ void spi1_SendDataDMA_1Byte(uint8_t* data, uint16_t count_byte){
 	Start_DMA_Send_Data();
 }
 
+/* send few bytes via DMA from defined color buffer */
 void spi1_SendDataDMA_Column(uint8_t* data, uint16_t count_byte){
 	DMA2_Stream3->CR &= ~DMA_SxCR_EN;
 	DMA2_Stream3->M0AR = (uint32_t)(data);

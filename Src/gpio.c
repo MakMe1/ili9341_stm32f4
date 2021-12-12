@@ -1,11 +1,13 @@
 #include "gpio.h"
 
+/* ADC input pin initialization */
 void	GPIOA_ADC_init(){
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 	GPIOA->MODER |= GPIO_MODER_MODER0;
 }
 
-void GPIOA_init_spi_TFT(){
+/* Configure GPIOA pins to work with display */
+void GPIOA_TFT_config(){
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
 	//PA5 - SCK, PA7 - MOSI , PA6 - MISO
 	GPIOA->MODER |= GPIO_MODER_MODER5_1 | GPIO_MODER_MODER6_1| GPIO_MODER_MODER7_1;

@@ -1,5 +1,6 @@
 #include "CoreClockConfig.h"
 
+/* Configure MC to 168 MHc core frequency */
 void SetSysClk_168MHz(void){
 	/* At this stage the HSI is already enabled and used as System clock source */
 	/* Select regulator voltage output Scale 1 mode, System frequency up to 168 MHz */
@@ -26,6 +27,7 @@ void SetSysClk_168MHz(void){
 	while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS ) != RCC_CFGR_SWS_PLL);
 }
 
+/* Configure MC to 84 MHc core frequency */
 void SetSysClk_84MHz(void){
     SystemInit();
     /* Enable HSE (CR: bit 16) */
